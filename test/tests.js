@@ -8,6 +8,7 @@
   var CSV = AMS.csv;
   var S = AMS.schedule;
   var I = AMS.instruments;
+  var K = AMS.constants;
 
   var cases = [];
   function test(name, fn) { cases.push({ name: name, fn: fn }); }
@@ -17,6 +18,21 @@
     if (actual !== expected) fail((msg || '') + ' — 期待値 ' + JSON.stringify(expected) + ' / 実際 ' + JSON.stringify(actual));
   }
   function ok(cond, msg) { if (!cond) fail(msg || '条件を満たしていません'); }
+
+  // ------------------------------------------------------- constants.js
+
+  test('constants: 全店舗に有効な siteUrl(https:で始まる)が設定されている', function () {
+    for (var i = 0; i < K.STORES.length; i++) {
+      var store = K.STORES[i];
+      ok(store.siteUrl && store.siteUrl.indexOf('https:' + '/' + '/sites.google.com/') === 0,
+        store.id + ' の siteUrl');
+    }
+  });
+
+  test('constants: storeById は id からその店舗を返す', function () {
+    eq(K.storeById('sanjo').name, '三条店');
+    eq(K.storeById('no-such-id'), null);
+  });
 
   // ------------------------------------------------------- csv.js
 
@@ -189,6 +205,14 @@
     var months = [{ dateItems: ['22'], notes: [] }];
     var r = S.resolveLessonDates(['8月'], months, new Date(2026, 7, 22));
     eq(r[0][0].status, 'today');
+    eq(r[0][0].daysUntil, 0);
+  });
+
+  test('schedule: resolveLessonDates は next に daysUntil(残り日数)を付ける', function () {
+    var months = [{ dateItems: ['24', '31'], notes: [] }];
+    var r = S.resolveLessonDates(['8月'], months, new Date(2026, 7, 22));
+    eq(r[0][0].status, 'next');
+    eq(r[0][0].daysUntil, 2);
   });
 
   test('schedule: resolveLessonDates は月が読めない列を unknown にする(落ちない)', function () {

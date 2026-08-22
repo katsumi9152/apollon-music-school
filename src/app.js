@@ -28,20 +28,6 @@
     while (node.firstChild) node.removeChild(node.firstChild);
   }
 
-  function pad2(n) {
-    return n < 10 ? '0' + n : String(n);
-  }
-
-  function formatDateTime(iso) {
-    try {
-      var d = new Date(iso);
-      return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' +
-        pad2(d.getHours()) + ':' + pad2(d.getMinutes());
-    } catch (e) {
-      return iso;
-    }
-  }
-
   function chipButton(label, selected, onClick) {
     var b = el('button', 'chip' + (selected ? ' chip-selected' : ''), label);
     b.type = 'button';
@@ -53,6 +39,12 @@
   function setStatus(text, tone) {
     els.status.textContent = text || '';
     els.status.className = 'status' + (tone ? ' status-' + tone : '');
+    els.retryBtn.hidden = true;
+  }
+
+  function showLoadError(text) {
+    setStatus(text, 'error');
+    els.retryBtn.hidden = false;
   }
 
   // ---- 教室 ----
@@ -85,13 +77,24 @@
     loadStoreData(storeId);
   }
 
+  /**
+   * 前回のキャッシュがあれば即座に表示し(体感速度優先)、裏で最新を取りに行って
+   * 内容が変わっていた場合だけ静かに描画し直す。キャッシュが無ければ通常どおり待つ。
+   */
   function loadStoreData(storeId) {
     var store = C.storeById(storeId);
     if (!store) return;
 
-    setStatus('スケジュールを読み込み中…', 'loading');
-    els.updatedInfo.textContent = '';
-    clear(els.sheetLink);
+    var cached = ST.loadCache(storeId);
+    var cachedText = cached && cached.csvText ? cached.csvText : null;
+
+    if (cachedText) {
+      applyScheduleData(storeId, S.parseSchedule(cachedText), 'cache');
+    } else {
+      setStatus('スケジュールを読み込み中…', 'loading');
+      els.updatedInfo.textContent = '';
+      clear(els.sheetLink);
+    }
 
     var url = S.scheduleUrl(store.sheetId);
     fetch(url)
@@ -102,42 +105,43 @@
       .then(function (csvText) {
         if (state.storeId !== storeId) return; // 途中で教室が切り替わっていたら捨てる
         ST.saveCache(storeId, csvText);
-        applyScheduleData(storeId, S.parseSchedule(csvText), false, null);
+        if (csvText === cachedText) {
+          setStatus('', null); // 内容が同じなら再描画しない(点滅・スクロール防止)
+          return;
+        }
+        applyScheduleData(storeId, S.parseSchedule(csvText), 'live');
       })
       .catch(function () {
         if (state.storeId !== storeId) return;
-        var cached = ST.loadCache(storeId);
-        if (cached && cached.csvText) {
-          applyScheduleData(storeId, S.parseSchedule(cached.csvText), true, cached.fetchedAt);
+        if (cachedText) {
+          setStatus('最新の情報を確認できませんでした。前回取得した内容を表示しています。', 'warn');
         } else {
-          setStatus('読み込みに失敗しました。電波の良い場所でもう一度試してね。', 'error');
+          showLoadError('読み込みに失敗しました。電波の良い場所でもう一度試してね。');
         }
       });
   }
 
-  function applyScheduleData(storeId, data, usingCache, cacheFetchedAt) {
+  function applyScheduleData(storeId, data, mode) {
     state.data = data;
 
     var store = C.storeById(storeId);
 
-    if (usingCache) {
-      setStatus('最新の情報を取得できなかったので、前回取得した内容を表示しています。', 'warn');
+    if (mode === 'cache') {
+      setStatus('最新のレッスン日を確認中…', 'loading');
     } else {
       setStatus('', null);
     }
 
-    var updatedText = data.updatedAt ? 'シート更新日: ' + data.updatedAt : '';
-    if (usingCache && cacheFetchedAt) {
-      updatedText += (updatedText ? ' / ' : '') + '取得: ' + formatDateTime(cacheFetchedAt);
-    }
-    els.updatedInfo.textContent = updatedText;
+    els.updatedInfo.textContent = data.updatedAt ? 'シート更新日: ' + data.updatedAt : '';
 
     clear(els.sheetLink);
-    var link = el('a', 'sheet-link-a', '元のスプレッドシートを見る');
-    link.href = 'https://docs.google.com/spreadsheets/d/' + store.sheetId + '/edit';
-    link.target = '_blank';
-    link.rel = 'noopener';
-    els.sheetLink.appendChild(link);
+    if (store.siteUrl) {
+      var link = el('a', 'sheet-link-a', store.name + 'の公式サイトを見る');
+      link.href = store.siteUrl;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      els.sheetLink.appendChild(link);
+    }
 
     var weekdays = S.weekdaysPresent(data.rows);
     if (weekdays.length === 0) {
@@ -185,6 +189,15 @@
     persistSelection();
     renderWeekdays(S.weekdaysPresent(state.data.rows));
     applyWeekday(weekday);
+
+    // 先生がまだ決まっていないときだけ、一覧が全部見えるようスクロールする
+    if (!state.teacher && typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+      window.requestAnimationFrame(function () {
+        if (typeof els.teacherSection.scrollIntoView === 'function') {
+          els.teacherSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+      });
+    }
   }
 
   function applyWeekday(weekday) {
@@ -278,7 +291,7 @@
           var item = resolved[m][d];
           var chip = el('span', 'date-chip date-' + item.status, S.formatDateItem(item.token));
           if (item.status === 'next') {
-            chip.appendChild(el('span', 'date-tag', 'つぎ♪'));
+            chip.appendChild(el('span', 'date-tag', 'つぎ♪ あと' + item.daysUntil + '日'));
           } else if (item.status === 'today') {
             chip.appendChild(el('span', 'date-tag', 'きょう♪'));
           }
@@ -299,14 +312,6 @@
     }
 
     els.result.appendChild(card);
-    // カードはタイトル直下にあるので、下の選択エリアから操作したときは上に戻して見せる
-    if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
-      try {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } catch (e) {
-        window.scrollTo(0, 0);
-      }
-    }
   }
 
   // ---- 保存・復元 ----
@@ -336,8 +341,12 @@
     els.updatedInfo = document.getElementById('updated-info');
     els.sheetLink = document.getElementById('sheet-link');
     els.refreshBtn = document.getElementById('refresh-btn');
+    els.retryBtn = document.getElementById('retry-btn');
 
     els.refreshBtn.addEventListener('click', function () {
+      if (state.storeId) loadStoreData(state.storeId);
+    });
+    els.retryBtn.addEventListener('click', function () {
       if (state.storeId) loadStoreData(state.storeId);
     });
 

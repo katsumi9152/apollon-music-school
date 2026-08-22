@@ -196,7 +196,9 @@
       }
     }
     if (next) {
-      next.status = next.date.getTime() === day0.getTime() ? 'today' : 'next';
+      var diffDays = Math.round((next.date.getTime() - day0.getTime()) / 86400000);
+      next.status = diffDays === 0 ? 'today' : 'next';
+      next.daysUntil = diffDays;
     }
     return result;
   }
