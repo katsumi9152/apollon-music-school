@@ -61,8 +61,12 @@ try {
       $full = Join-Path $root $relative
       $resolvedRoot = [System.IO.Path]::GetFullPath($root)
       $resolved = [System.IO.Path]::GetFullPath($full)
+      # StartsWith だけだと "...School-private" のような隣接フォルダも一致してしまうため、
+      # 区切り文字までを含めて比較する
+      $rootWithSep = $resolvedRoot.TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
+      $withinRoot = ($resolved -eq $resolvedRoot) -or $resolved.StartsWith($rootWithSep)
 
-      if ($resolved.StartsWith($resolvedRoot) -and (Test-Path -LiteralPath $resolved -PathType Leaf)) {
+      if ($withinRoot -and (Test-Path -LiteralPath $resolved -PathType Leaf)) {
         $bytes = [System.IO.File]::ReadAllBytes($resolved)
         $ext = [System.IO.Path]::GetExtension($resolved).ToLowerInvariant()
         $type = if ($types.ContainsKey($ext)) { $types[$ext] } else { 'application/octet-stream' }

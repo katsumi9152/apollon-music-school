@@ -159,7 +159,15 @@
     var diff = month - (today.getMonth() + 1);
     if (diff > 6) year -= 1;
     if (diff < -6) year += 1;
+
+    // "2/30" のような存在しない日付は、Date が自動繰り上げて別の月にしてしまうため弾く
+    if (day > daysInMonth(year, month)) return null;
+
     return new Date(year, month - 1, day);
+  }
+
+  function daysInMonth(year, month) {
+    return new Date(year, month, 0).getDate();
   }
 
   /**

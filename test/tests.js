@@ -189,6 +189,14 @@
     eq(S.actualDateOf(8, 'おやすみ', new Date(2026, 7, 22)), null);
   });
 
+  test('schedule: actualDateOf は存在しない日付(2/30など)に null を返す(翌月へ繰り上げない)', function () {
+    var today = new Date(2026, 7, 22);
+    eq(S.actualDateOf(2, '30', today), null);
+    eq(S.actualDateOf(4, '31', today), null, '4月31日は存在しない');
+    ok(S.actualDateOf(2, '29', new Date(2028, 0, 1)) !== null, '2028年はうるう年なので2/29は存在する');
+    eq(S.actualDateOf(2, '29', new Date(2026, 0, 1)), null, '2026年はうるう年ではない');
+  });
+
   test('schedule: resolveLessonDates は過去/次/未来を付ける(今日以降の最初が next)', function () {
     var months = [
       { dateItems: ['3', '17', '31'], notes: [] },

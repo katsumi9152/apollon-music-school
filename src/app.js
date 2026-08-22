@@ -36,6 +36,20 @@
     return b;
   }
 
+  /** 教室・曜日・先生、共通のチップ一覧描画(選択判定・ラベル・選択時の動作だけ差し替える) */
+  function renderChipList(container, items, isSelected, labelOf, onSelect) {
+    clear(container);
+    for (var i = 0; i < items.length; i++) {
+      (function (item) {
+        container.appendChild(
+          chipButton(labelOf(item), isSelected(item), function () {
+            onSelect(item);
+          })
+        );
+      })(items[i]);
+    }
+  }
+
   function setStatus(text, tone) {
     els.status.textContent = text || '';
     els.status.className = 'status' + (tone ? ' status-' + tone : '');
@@ -50,17 +64,13 @@
   // ---- 教室 ----
 
   function renderStores() {
-    clear(els.storeList);
-    for (var i = 0; i < C.STORES.length; i++) {
-      (function (store) {
-        var selected = state.storeId === store.id;
-        els.storeList.appendChild(
-          chipButton(store.name, selected, function () {
-            selectStore(store.id);
-          })
-        );
-      })(C.STORES[i]);
-    }
+    renderChipList(
+      els.storeList,
+      C.STORES,
+      function (store) { return state.storeId === store.id; },
+      function (store) { return store.name; },
+      function (store) { selectStore(store.id); }
+    );
   }
 
   function selectStore(storeId) {
@@ -104,12 +114,24 @@
       })
       .then(function (csvText) {
         if (state.storeId !== storeId) return; // 途中で教室が切り替わっていたら捨てる
+
+        var data = S.parseSchedule(csvText);
+        if (S.weekdaysPresent(data.rows).length === 0) {
+          // 中身が読み取れない応答(一時的なエラーページ等)でキャッシュを上書きしない
+          if (cachedText) {
+            setStatus('最新の情報を確認できませんでした。前回取得した内容を表示しています。', 'warn');
+          } else {
+            applyScheduleData(storeId, data, 'live');
+          }
+          return;
+        }
+
         ST.saveCache(storeId, csvText);
         if (csvText === cachedText) {
           setStatus('', null); // 内容が同じなら再描画しない(点滅・スクロール防止)
           return;
         }
-        applyScheduleData(storeId, S.parseSchedule(csvText), 'live');
+        applyScheduleData(storeId, data, 'live');
       })
       .catch(function () {
         if (state.storeId !== storeId) return;
@@ -170,20 +192,17 @@
   // ---- 曜日 ----
 
   function renderWeekdays(weekdays) {
-    clear(els.weekdayList);
-    for (var i = 0; i < weekdays.length; i++) {
-      (function (w) {
-        var selected = state.weekday === w;
-        els.weekdayList.appendChild(
-          chipButton(w + '曜日', selected, function () {
-            selectWeekday(w);
-          })
-        );
-      })(weekdays[i]);
-    }
+    renderChipList(
+      els.weekdayList,
+      weekdays,
+      function (w) { return state.weekday === w; },
+      function (w) { return w + '曜日'; },
+      function (w) { selectWeekday(w); }
+    );
   }
 
   function selectWeekday(weekday) {
+    if (state.weekday === weekday) return;
     state.weekday = weekday;
     state.teacher = null;
     persistSelection();
@@ -234,19 +253,15 @@
   // ---- 先生 ----
 
   function renderTeachers(rows) {
-    clear(els.teacherList);
-    for (var i = 0; i < rows.length; i++) {
-      (function (row) {
-        var selected = state.teacher === row.teacher;
-        var label = S.formatTeacherName(row.teacher) +
-          (row.subjects.length ? '(' + row.subjects[0] + ')' : '');
-        els.teacherList.appendChild(
-          chipButton(label, selected, function () {
-            selectTeacher(row);
-          })
-        );
-      })(rows[i]);
-    }
+    renderChipList(
+      els.teacherList,
+      rows,
+      function (row) { return state.teacher === row.teacher; },
+      function (row) {
+        return S.formatTeacherName(row.teacher) + (row.subjects.length ? '(' + row.subjects[0] + ')' : '');
+      },
+      function (row) { selectTeacher(row); }
+    );
   }
 
   function selectTeacher(row) {
