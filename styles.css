@@ -359,7 +359,6 @@ main {
   background: linear-gradient(135deg, var(--accent), var(--accent-3));
   color: var(--accent-ink);
   border-color: transparent;
-  box-shadow: var(--shadow);
 }
 
 .date-tag {
