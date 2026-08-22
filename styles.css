@@ -15,6 +15,8 @@
   --shadow: 0 8px 20px -12px rgba(58, 46, 57, 0.35);
   --radius: 16px;
   --focus: #6a4c93;
+  --card-tint-a: rgba(232, 85, 111, 0.12);
+  --card-tint-b: rgba(242, 167, 27, 0.12);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,6 +33,8 @@
     --accent-3: #ffc857;
     --shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.6);
     --focus: #c9b6ff;
+    --card-tint-a: rgba(255, 122, 147, 0.14);
+    --card-tint-b: rgba(255, 200, 87, 0.14);
   }
 }
 
@@ -47,6 +51,8 @@
   --accent-3: #ffc857;
   --shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.6);
   --focus: #c9b6ff;
+  --card-tint-a: rgba(255, 122, 147, 0.14);
+  --card-tint-b: rgba(255, 200, 87, 0.14);
 }
 
 * {
@@ -226,7 +232,7 @@ main {
 }
 
 .result-card {
-  background: linear-gradient(165deg, var(--surface), var(--surface-muted));
+  background: linear-gradient(165deg, var(--card-tint-a), var(--card-tint-b)), var(--surface);
   border-radius: var(--radius);
   padding: 22px 20px;
   box-shadow: var(--shadow);
