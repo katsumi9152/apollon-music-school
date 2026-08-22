@@ -385,12 +385,19 @@ footer {
   text-align: center;
 }
 
-.refresh-btn {
+.footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.refresh-btn,
+.theme-toggle-btn {
   appearance: none;
-  border: none;
+  border: 1.5px solid var(--border);
   background: var(--surface);
   color: var(--accent-2);
-  border: 1.5px solid var(--border);
   border-radius: 999px;
   padding: 10px 20px;
   font-size: 13px;
@@ -399,7 +406,12 @@ footer {
   min-height: 40px;
 }
 
-.refresh-btn:active {
+.theme-toggle-btn {
+  color: var(--text);
+}
+
+.refresh-btn:active,
+.theme-toggle-btn:active {
   transform: scale(0.97);
 }
 

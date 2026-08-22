@@ -52,10 +52,28 @@
     } catch (e) {}
   }
 
+  function loadTheme() {
+    if (!hasLocalStorage()) return null;
+    try {
+      return localStorage.getItem(KEYS.theme);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveTheme(theme) {
+    if (!hasLocalStorage()) return;
+    try {
+      localStorage.setItem(KEYS.theme, theme);
+    } catch (e) {}
+  }
+
   AMS.storage = {
     loadSelection: loadSelection,
     saveSelection: saveSelection,
     loadCache: loadCache,
-    saveCache: saveCache
+    saveCache: saveCache,
+    loadTheme: loadTheme,
+    saveTheme: saveTheme
   };
 })(this.AMS = this.AMS || {});

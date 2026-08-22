@@ -353,6 +353,28 @@
     state.teacher = saved.teacher || null;
   }
 
+  // ---- ライト/ダーク切り替え ----
+
+  function effectiveTheme() {
+    var attr = document.documentElement.getAttribute('data-theme');
+    if (attr === 'light' || attr === 'dark') return attr;
+    if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
+  }
+
+  function updateThemeToggleButton() {
+    els.themeToggleBtn.textContent = effectiveTheme() === 'dark' ? '☀️ ライト表示' : '🌙 ダーク表示';
+  }
+
+  function applySavedTheme() {
+    var saved = ST.loadTheme();
+    if (saved === 'light' || saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  }
+
   // ---- 初期化 ----
 
   function init() {
@@ -367,6 +389,7 @@
     els.sheetLink = document.getElementById('sheet-link');
     els.refreshBtn = document.getElementById('refresh-btn');
     els.retryBtn = document.getElementById('retry-btn');
+    els.themeToggleBtn = document.getElementById('theme-toggle-btn');
 
     els.refreshBtn.addEventListener('click', function () {
       if (state.storeId) loadStoreData(state.storeId);
@@ -374,13 +397,22 @@
     els.retryBtn.addEventListener('click', function () {
       if (state.storeId) loadStoreData(state.storeId);
     });
+    els.themeToggleBtn.addEventListener('click', function () {
+      var next = effectiveTheme() === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      ST.saveTheme(next);
+      updateThemeToggleButton();
+    });
 
+    updateThemeToggleButton();
     restoreSelection();
     renderStores();
     if (state.storeId) {
       loadStoreData(state.storeId);
     }
   }
+
+  applySavedTheme();
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

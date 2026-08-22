@@ -25,7 +25,8 @@
 
   var STORAGE_KEYS = {
     lastSelection: 'ams-schedule:last-selection',
-    cachePrefix: 'ams-schedule:cache:'
+    cachePrefix: 'ams-schedule:cache:',
+    theme: 'ams-schedule:theme'
   };
 
   function storeById(id) {
