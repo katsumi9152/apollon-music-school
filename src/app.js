@@ -318,7 +318,7 @@
           if (item.status === 'next') {
             chip.appendChild(el('span', 'date-tag', S.formatDaysUntil(item.daysUntil)));
           } else if (item.status === 'today') {
-            chip.appendChild(el('span', 'date-tag', 'きょう♪'));
+            chip.appendChild(el('span', 'date-tag', '今日♪'));
           }
           chips.appendChild(chip);
         }

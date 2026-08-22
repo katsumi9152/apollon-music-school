@@ -334,7 +334,7 @@ main {
 .date-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 10px;
+  gap: 10px 8px;
   align-items: center;
 }
 
@@ -345,7 +345,7 @@ main {
   background: var(--surface);
   border: 2px solid var(--border);
   border-radius: 12px;
-  padding: 9px 15px;
+  padding: 8px 12px;
   font-size: clamp(18px, 5.2vw, 23px);
   font-weight: 800;
   letter-spacing: 0.02em;
