@@ -1,0 +1,13 @@
+{
+  "name": "あぽろん レッスン日程",
+  "short_name": "あぽろん日程",
+  "description": "あぽろんミュージックスクールのレッスン日確認アプリ",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff7ed",
+  "theme_color": "#e8556f",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
