@@ -173,7 +173,7 @@ main {
 }
 
 .chip-selected {
-  background: linear-gradient(135deg, var(--accent), var(--accent-3));
+  background: var(--accent);
   color: var(--accent-ink);
   border-color: transparent;
 }
@@ -356,7 +356,7 @@ main {
 
 .date-next,
 .date-today {
-  background: linear-gradient(135deg, var(--accent), var(--accent-3));
+  background: var(--accent);
   color: var(--accent-ink);
   border-color: transparent;
 }
