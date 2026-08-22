@@ -23,6 +23,10 @@ pwsh -File serve.ps1              # http://localhost:8765/
 pwsh -File serve.ps1 -Any         # 同じ Wi-Fi のスマホからも確認したいとき
 ```
 
+## キャッシュ対策とバージョン表示
+
+`index.html` の `<script>` / `<link>` にはすべて `?v=YYYYMMDDx` を付けている(GitHub Pages のキャッシュを回避するため)。`styles.css` や `src/*.js` を1文字でも変えたら、このバージョン文字列を全箇所まとめて上げること(sed 等で一括置換)。上げ忘れると「直したのに反映されない」ように見える。画面下の `.app-version` にも同じ文字列を表示しているので、実機で最新が反映されているか確認できる。
+
 ## テスト
 
 Node もインストールも不要です。Windows 同梱の Windows Script Host(cscript)で、CSV 解析・スケジュール解析の純粋関数を検証します。
