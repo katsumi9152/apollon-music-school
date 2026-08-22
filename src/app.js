@@ -390,6 +390,9 @@
     els.refreshBtn = document.getElementById('refresh-btn');
     els.retryBtn = document.getElementById('retry-btn');
     els.themeToggleBtn = document.getElementById('theme-toggle-btn');
+    els.qrBtn = document.getElementById('qr-btn');
+    els.qrModal = document.getElementById('qr-modal');
+    els.qrModalClose = document.getElementById('qr-modal-close');
 
     els.refreshBtn.addEventListener('click', function () {
       if (state.storeId) loadStoreData(state.storeId);
@@ -402,6 +405,18 @@
       document.documentElement.setAttribute('data-theme', next);
       ST.saveTheme(next);
       updateThemeToggleButton();
+    });
+    els.qrBtn.addEventListener('click', function () {
+      els.qrModal.hidden = false;
+    });
+    els.qrModalClose.addEventListener('click', function () {
+      els.qrModal.hidden = true;
+    });
+    els.qrModal.addEventListener('click', function (e) {
+      if (e.target === els.qrModal) els.qrModal.hidden = true;
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !els.qrModal.hidden) els.qrModal.hidden = true;
     });
 
     updateThemeToggleButton();

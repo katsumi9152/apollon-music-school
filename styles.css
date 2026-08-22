@@ -394,7 +394,8 @@ footer {
 }
 
 .refresh-btn,
-.theme-toggle-btn {
+.theme-toggle-btn,
+.qr-btn {
   appearance: none;
   border: 1.5px solid var(--border);
   background: var(--surface);
@@ -412,8 +413,74 @@ footer {
 }
 
 .refresh-btn:active,
-.theme-toggle-btn:active {
+.theme-toggle-btn:active,
+.qr-btn:active {
   transform: scale(0.97);
+}
+
+/* ---- 紹介QRモーダル ---- */
+
+.qr-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 100;
+}
+
+.qr-modal[hidden] {
+  display: none;
+}
+
+.qr-modal-card {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 24px 22px;
+  max-width: 300px;
+  width: 100%;
+  text-align: center;
+}
+
+.qr-modal-title {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.qr-modal-img {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  border-radius: 8px;
+  background: #fff;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.qr-modal-tip {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.qr-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  appearance: none;
+  border: none;
+  background: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 6px;
 }
 
 .updated {
