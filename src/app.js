@@ -269,6 +269,24 @@
     persistSelection();
     renderTeachers(S.rowsForWeekday(state.data.rows, state.weekday));
     renderResult(row);
+
+    // 結果カード(日付)が画面より上に隠れている場合だけ、見えるようスクロールする
+    if (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
+      window.requestAnimationFrame(function () {
+        var section = els.result;
+        if (!section || typeof section.getBoundingClientRect !== 'function') return;
+        var rect = section.getBoundingClientRect();
+        var margin = 12;
+        var overflow = rect.top - margin;
+        if (overflow < 0 && typeof window.scrollBy === 'function') {
+          try {
+            window.scrollBy({ top: overflow, behavior: 'smooth' });
+          } catch (e) {
+            window.scrollBy(0, overflow);
+          }
+        }
+      });
+    }
   }
 
   // ---- 結果 ----

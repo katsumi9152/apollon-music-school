@@ -382,8 +382,7 @@ main {
 
 footer {
   margin-top: 28px;
-  padding: 20px 16px 0;
-  border-top: 1px solid var(--border);
+  padding: 0 16px;
   text-align: center;
 }
 
@@ -392,6 +391,8 @@ footer {
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
+  padding-top: 20px;
+  border-top: 2px solid var(--accent);
 }
 
 .refresh-btn,
