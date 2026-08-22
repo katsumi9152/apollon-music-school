@@ -15,7 +15,7 @@
   --shadow: 0 8px 20px -12px rgba(58, 46, 57, 0.35);
   --radius: 16px;
   --focus: #6a4c93;
-  --card-tint: rgba(242, 167, 27, 0.28);
+  --card-tint: rgba(242, 167, 27, 0.42);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,7 +32,7 @@
     --accent-3: #ffc857;
     --shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.6);
     --focus: #c9b6ff;
-    --card-tint: rgba(255, 200, 87, 0.30);
+    --card-tint: rgba(255, 200, 87, 0.44);
   }
 }
 
@@ -49,7 +49,7 @@
   --accent-3: #ffc857;
   --shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.6);
   --focus: #c9b6ff;
-  --card-tint: rgba(255, 200, 87, 0.30);
+  --card-tint: rgba(255, 200, 87, 0.44);
 }
 
 * {
@@ -229,7 +229,7 @@ main {
 }
 
 .result-card {
-  background: linear-gradient(165deg, var(--card-tint), var(--surface) 32%);
+  background: linear-gradient(165deg, var(--card-tint), var(--surface) 42%);
   border-radius: var(--radius);
   padding: 22px 20px;
   box-shadow: var(--shadow);
