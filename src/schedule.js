@@ -78,17 +78,44 @@
 
   function parseMonthCell(cell) {
     var lines = splitCellLines(cell);
-    var dateParts = [];
+    var dateItems = [];
     var notes = [];
     for (var i = 0; i < lines.length; i++) {
       var line = lines[i];
       if (line.charAt(0) === '※') {
         notes.push(line);
-      } else {
-        dateParts.push(normalizeText(line));
+        continue;
+      }
+      var parts = normalizeText(line).split(',');
+      for (var j = 0; j < parts.length; j++) {
+        var t = trim(parts[j]);
+        if (t.length > 0) dateItems.push(t);
       }
     }
-    return { dates: trim(dateParts.join(' ')), notes: notes };
+    return { dateItems: dateItems, notes: notes };
+  }
+
+  /**
+   * 日付1件を「10日」「17日(A)」「9月6日」のように読みやすく整形する。
+   * 元の値の意味は変えない(符号(A)(上)等はそのまま残す)。
+   */
+  function formatDateItem(token) {
+    var t = trim(token);
+    var withMonth = /^(\d+)\/(\d+)(.*)$/.exec(t);
+    if (withMonth) {
+      return withMonth[1] + '月' + withMonth[2] + '日' + withMonth[3];
+    }
+    var dayOnly = /^(\d+)(.*)$/.exec(t);
+    if (dayOnly) {
+      return dayOnly[1] + '日' + dayOnly[2];
+    }
+    return t;
+  }
+
+  function formatDateItems(items) {
+    var out = [];
+    for (var i = 0; i < items.length; i++) out.push(formatDateItem(items[i]));
+    return out;
   }
 
   /**
@@ -151,6 +178,8 @@
     scheduleUrl: scheduleUrl,
     parseSchedule: parseSchedule,
     weekdaysPresent: weekdaysPresent,
-    rowsForWeekday: rowsForWeekday
+    rowsForWeekday: rowsForWeekday,
+    formatDateItem: formatDateItem,
+    formatDateItems: formatDateItems
   };
 })(this.AMS = this.AMS || {});

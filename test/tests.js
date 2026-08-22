@@ -79,10 +79,10 @@
     eq(data.rows[2].weekday, '火');
   });
 
-  test('schedule: 全角数字・全角読点は半角に正規化される', function () {
+  test('schedule: 全角数字は半角に正規化され、日付ごとに配列で保持される', function () {
     var data = S.parseSchedule(sampleCsv());
-    eq(data.rows[0].months[0].dates, '3, 17, 31');
-    eq(data.rows[0].months[1].dates, '7, 14, 28');
+    eq(data.rows[0].months[0].dateItems.join('|'), '3|17|31');
+    eq(data.rows[0].months[1].dateItems.join('|'), '7|14|28');
   });
 
   test('schedule: 教科セルの複数行はそれぞれ別の項目になる', function () {
@@ -95,7 +95,7 @@
       '"曜日","講師","8月","9月","教科"\r\n' +
       '"月","五十嵐 友輔先生","２，２３，９/６\n※9/6は8月の3回目です。","１３，２０","トロンボーン科"\r\n';
     var data = S.parseSchedule(csv);
-    eq(data.rows[0].months[0].dates, '2, 23, 9/6');
+    eq(data.rows[0].months[0].dateItems.join('|'), '2|23|9/6');
     eq(data.rows[0].months[0].notes.join('|'), '※9/6は8月の3回目です。');
     eq(data.rows[0].months[1].notes.length, 0);
   });
@@ -113,7 +113,18 @@
       '"曜日","講師","8月","9月","教科"\r\n' +
       '"土","間瀬 啓介先生","１（A），２２（上），２９（上）","５（上），１２（上），１９（A）","ドラム科"\r\n';
     var data = S.parseSchedule(csv);
-    eq(data.rows[0].months[0].dates, '1(A), 22(上), 29(上)');
+    eq(data.rows[0].months[0].dateItems.join('|'), '1(A)|22(上)|29(上)');
+  });
+
+  test('schedule: formatDateItem は日付を「◯日」の形に整形する', function () {
+    eq(S.formatDateItem('3'), '3日');
+    eq(S.formatDateItem('17(A)'), '17日(A)');
+    eq(S.formatDateItem('9/6'), '9月6日');
+    eq(S.formatDateItem('8/31(上)'), '8月31日(上)');
+  });
+
+  test('schedule: formatDateItems は複数件をまとめて整形する', function () {
+    eq(S.formatDateItems(['3', '17', '31']).join('、'), '3日、17日、31日');
   });
 
   test('schedule: weekdaysPresent は曜日順(月火水木金土日)で重複なく返す', function () {

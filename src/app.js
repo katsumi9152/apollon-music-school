@@ -242,10 +242,12 @@
     var info = el('div', 'result-info');
 
     var store = C.storeById(state.storeId);
-    var badgeText = (store ? store.name + ' ' : '') + row.weekday + '曜日';
 
     var head = el('div', 'result-head');
-    head.appendChild(el('span', 'result-badge', badgeText));
+    var badges = el('div', 'result-badges');
+    if (store) badges.appendChild(el('span', 'result-badge result-badge-store', store.name));
+    badges.appendChild(el('span', 'result-badge result-badge-weekday', row.weekday + '曜日'));
+    head.appendChild(badges);
     head.appendChild(el('h3', 'result-teacher', row.teacher));
     info.appendChild(head);
 
@@ -259,11 +261,14 @@
     var shown = 0;
     for (var m = 0; m < row.months.length; m++) {
       var month = row.months[m];
-      if (!month.dates && month.notes.length === 0) continue;
+      if (month.dateItems.length === 0 && month.notes.length === 0) continue;
       shown++;
       var block = el('div', 'month-block');
       block.appendChild(el('div', 'month-label', monthLabels[m] || ('第' + (m + 1) + 'ヶ月')));
-      block.appendChild(el('div', 'month-dates', month.dates || '(日程なし)'));
+      var datesText = month.dateItems.length
+        ? S.formatDateItems(month.dateItems).join('、')
+        : '(日程なし)';
+      block.appendChild(el('div', 'month-dates', datesText));
       for (var n = 0; n < month.notes.length; n++) {
         block.appendChild(el('div', 'month-note', month.notes[n]));
       }
