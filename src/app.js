@@ -215,8 +215,10 @@
     for (var i = 0; i < rows.length; i++) {
       (function (row) {
         var selected = state.teacher === row.teacher;
+        var label = S.formatTeacherName(row.teacher) +
+          (row.subjects.length ? '(' + row.subjects[0] + ')' : '');
         els.teacherList.appendChild(
-          chipButton(S.formatTeacherName(row.teacher), selected, function () {
+          chipButton(label, selected, function () {
             selectTeacher(row);
           })
         );
@@ -247,6 +249,9 @@
     var badges = el('div', 'result-badges');
     if (store) badges.appendChild(el('span', 'result-badge result-badge-store', store.name));
     badges.appendChild(el('span', 'result-badge result-badge-weekday', row.weekday + '曜日'));
+    if (row.subjects.length) {
+      badges.appendChild(el('span', 'result-badge result-badge-subject', row.subjects[0]));
+    }
     head.appendChild(badges);
     head.appendChild(el('h3', 'result-teacher', S.formatTeacherName(row.teacher)));
     info.appendChild(head);

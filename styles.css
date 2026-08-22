@@ -275,6 +275,10 @@ main {
   color: var(--accent);
 }
 
+.result-badge-subject {
+  color: var(--accent-3);
+}
+
 .result-teacher {
   margin: 0;
   padding-left: 6px;
