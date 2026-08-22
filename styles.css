@@ -367,8 +367,10 @@ main {
 .date-tag {
   font-size: 12px;
   font-weight: 700;
-  color: inherit;
-  opacity: 0.85;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--accent-mid);
+  border-radius: 999px;
+  padding: 2px 8px;
   white-space: nowrap;
 }
 
