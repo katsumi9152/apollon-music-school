@@ -140,6 +140,63 @@
     eq(S.formatTeacherName('あぽろんオリジナル'), 'あぽろんオリジナル');
   });
 
+  test('schedule: parseMonthNumber は「8月」→8、読めなければ null', function () {
+    eq(S.parseMonthNumber('8月'), 8);
+    eq(S.parseMonthNumber('12月'), 12);
+    eq(S.parseMonthNumber('教科'), null);
+    eq(S.parseMonthNumber(''), null);
+  });
+
+  test('schedule: actualDateOf は列の月+日でDateを組み立てる', function () {
+    var today = new Date(2026, 7, 22);
+    var d = S.actualDateOf(8, '17(A)', today);
+    eq(d.getFullYear(), 2026);
+    eq(d.getMonth(), 7);
+    eq(d.getDate(), 17);
+  });
+
+  test('schedule: actualDateOf は「9/6」のような月明記を優先する', function () {
+    var today = new Date(2026, 7, 22);
+    var d = S.actualDateOf(8, '9/6', today);
+    eq(d.getMonth(), 8);
+    eq(d.getDate(), 6);
+  });
+
+  test('schedule: actualDateOf は年末年始の年またぎを正しく解決する', function () {
+    var dec = new Date(2026, 11, 20);
+    eq(S.actualDateOf(1, '10', dec).getFullYear(), 2027, '12月に見る1月は翌年');
+    var jan = new Date(2027, 0, 5);
+    eq(S.actualDateOf(12, '28', jan).getFullYear(), 2026, '1月に見る12月は前年');
+  });
+
+  test('schedule: actualDateOf は数字が無いトークンに null を返す', function () {
+    eq(S.actualDateOf(8, 'おやすみ', new Date(2026, 7, 22)), null);
+  });
+
+  test('schedule: resolveLessonDates は過去/次/未来を付ける(今日以降の最初が next)', function () {
+    var months = [
+      { dateItems: ['3', '17', '31'], notes: [] },
+      { dateItems: ['7', '14', '28'], notes: [] }
+    ];
+    var r = S.resolveLessonDates(['8月', '9月'], months, new Date(2026, 7, 22));
+    eq(r[0][0].status, 'past', '8/3');
+    eq(r[0][1].status, 'past', '8/17');
+    eq(r[0][2].status, 'next', '8/31 が次のレッスン');
+    eq(r[1][0].status, 'future', '9/7');
+  });
+
+  test('schedule: resolveLessonDates は今日がレッスン日なら today にする', function () {
+    var months = [{ dateItems: ['22'], notes: [] }];
+    var r = S.resolveLessonDates(['8月'], months, new Date(2026, 7, 22));
+    eq(r[0][0].status, 'today');
+  });
+
+  test('schedule: resolveLessonDates は月が読めない列を unknown にする(落ちない)', function () {
+    var months = [{ dateItems: ['5'], notes: [] }];
+    var r = S.resolveLessonDates(['???'], months, new Date(2026, 7, 22));
+    eq(r[0][0].status, 'unknown');
+  });
+
   test('schedule: weekdaysPresent は曜日順(月火水木金土日)で重複なく返す', function () {
     var data = S.parseSchedule(sampleCsv());
     eq(S.weekdaysPresent(data.rows).join(''), '月火');

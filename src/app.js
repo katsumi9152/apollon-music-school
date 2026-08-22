@@ -258,6 +258,7 @@
     card.appendChild(top);
 
     var monthLabels = state.data.monthLabels;
+    var resolved = S.resolveLessonDates(monthLabels, row.months, new Date());
     var shown = 0;
     for (var m = 0; m < row.months.length; m++) {
       var month = row.months[m];
@@ -265,10 +266,24 @@
       shown++;
       var block = el('div', 'month-block');
       block.appendChild(el('div', 'month-label', monthLabels[m] || ('第' + (m + 1) + 'ヶ月')));
-      var datesText = month.dateItems.length
-        ? S.formatDateItems(month.dateItems).join('、')
-        : '(日程なし)';
-      block.appendChild(el('div', 'month-dates', datesText));
+
+      if (month.dateItems.length) {
+        var chips = el('div', 'date-chips');
+        for (var d = 0; d < resolved[m].length; d++) {
+          var item = resolved[m][d];
+          var chip = el('span', 'date-chip date-' + item.status, S.formatDateItem(item.token));
+          if (item.status === 'next') {
+            chip.appendChild(el('span', 'date-tag', 'つぎ♪'));
+          } else if (item.status === 'today') {
+            chip.appendChild(el('span', 'date-tag', 'きょう♪'));
+          }
+          chips.appendChild(chip);
+        }
+        block.appendChild(chips);
+      } else {
+        block.appendChild(el('div', 'month-dates', '(日程なし)'));
+      }
+
       for (var n = 0; n < month.notes.length; n++) {
         block.appendChild(el('div', 'month-note', month.notes[n]));
       }

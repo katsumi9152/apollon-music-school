@@ -123,6 +123,81 @@
     return out;
   }
 
+  /** 「8月」→ 8。月が読み取れなければ null */
+  function parseMonthNumber(label) {
+    var m = /^(\d{1,2})月/.exec(trim(String(label == null ? '' : label)));
+    if (!m) return null;
+    var n = Number(m[1]);
+    return n >= 1 && n <= 12 ? n : null;
+  }
+
+  /**
+   * 日付トークンを実際の Date に解決する。
+   * "17" は列の月(columnMonth)の17日、"9/6" のような表記は明記された月を使う。
+   * 年は today に最も近い解釈を選ぶ(12月に「1月」の列を見たら翌年、など)。
+   * 数字が読み取れないトークンは null。
+   */
+  function actualDateOf(columnMonth, token, today) {
+    var t = trim(token);
+    var month = columnMonth;
+    var day;
+    var withMonth = /^(\d+)\/(\d+)/.exec(t);
+    if (withMonth) {
+      month = Number(withMonth[1]);
+      day = Number(withMonth[2]);
+    } else {
+      var dayOnly = /^(\d+)/.exec(t);
+      if (!dayOnly) return null;
+      day = Number(dayOnly[1]);
+    }
+    if (month == null || !(month >= 1 && month <= 12) || !(day >= 1 && day <= 31)) return null;
+
+    var year = today.getFullYear();
+    var diff = month - (today.getMonth() + 1);
+    if (diff > 6) year -= 1;
+    if (diff < -6) year += 1;
+    return new Date(year, month - 1, day);
+  }
+
+  /**
+   * 全日付の中から「今日以降で最初のレッスン日」を探し、各日付の状態を付けて返す。
+   * @param {string[]} monthLabels 列見出し(「8月」「9月」)
+   * @param {Array} months parseMonthCell の結果2つ
+   * @param {Date} today
+   * @returns {Array<Array<{token: string, date: Date|null, status: string}>>}
+   *          status: 'past' | 'today' | 'next' | 'future' | 'unknown'
+   */
+  function resolveLessonDates(monthLabels, months, today) {
+    var day0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    var all = [];
+    var result = [];
+    for (var m = 0; m < months.length; m++) {
+      var columnMonth = parseMonthNumber(monthLabels[m]);
+      var list = [];
+      for (var i = 0; i < months[m].dateItems.length; i++) {
+        var token = months[m].dateItems[i];
+        var date = columnMonth == null ? null : actualDateOf(columnMonth, token, day0);
+        var item = { token: token, date: date, status: 'unknown' };
+        if (date) {
+          item.status = date.getTime() < day0.getTime() ? 'past' : 'future';
+          all.push(item);
+        }
+        list.push(item);
+      }
+      result.push(list);
+    }
+    var next = null;
+    for (var j = 0; j < all.length; j++) {
+      if (all[j].status === 'future' && (next === null || all[j].date.getTime() < next.date.getTime())) {
+        next = all[j];
+      }
+    }
+    if (next) {
+      next.status = next.date.getTime() === day0.getTime() ? 'today' : 'next';
+    }
+    return result;
+  }
+
   /**
    * @param {string} csvText
    * @returns {{updatedAt: string, monthLabels: string[], rows: Array}}
@@ -186,6 +261,9 @@
     rowsForWeekday: rowsForWeekday,
     formatDateItem: formatDateItem,
     formatDateItems: formatDateItems,
-    formatTeacherName: formatTeacherName
+    formatTeacherName: formatTeacherName,
+    parseMonthNumber: parseMonthNumber,
+    actualDateOf: actualDateOf,
+    resolveLessonDates: resolveLessonDates
   };
 })(this.AMS = this.AMS || {});
