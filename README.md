@@ -42,6 +42,7 @@ pwsh -File test\run.ps1
 | `src/constants.js` | 店舗一覧(店舗名とスプレッドシートID)・曜日順の一元管理 |
 | `src/csv.js` | CSV パーサー(引用符内の改行・カンマ・エスケープに対応した純粋関数) |
 | `src/schedule.js` | スプレッドシートの行を曜日・先生・日程・教科に解析する純粋関数 |
+| `src/instruments.js` | 教科名から楽器アイコン(絵文字)を選ぶ純粋関数 |
 | `src/storage.js` | 前回の選択・取得したデータの `localStorage` への保存/読込 |
 | `src/app.js` | DOM 層(店舗選択・データ取得・描画・イベント処理) |
 

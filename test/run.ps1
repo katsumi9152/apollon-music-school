@@ -85,7 +85,7 @@ function Invoke-Suite {
 
 try {
   $a = Invoke-Suite -Title '純粋関数 (test/tests.js)' `
-    -Files @('test\es3-shim.js', 'src\constants.js', 'src\csv.js', 'src\schedule.js', 'test\tests.js') -Entry 'AMS.tests'
+    -Files @('test\es3-shim.js', 'src\constants.js', 'src\csv.js', 'src\schedule.js', 'src\instruments.js', 'test\tests.js') -Entry 'AMS.tests'
 } finally {
   Remove-Item -LiteralPath $tmp -Recurse -Force -ErrorAction SilentlyContinue
 }

@@ -239,18 +239,27 @@
     els.result.hidden = false;
 
     var card = el('div', 'result-card');
+    var top = el('div', 'result-top');
+    var info = el('div', 'result-info');
+
     var head = el('div', 'result-head');
     head.appendChild(el('span', 'result-badge', row.weekday + '曜日'));
     head.appendChild(el('h3', 'result-teacher', row.teacher));
-    card.appendChild(head);
+    info.appendChild(head);
 
     if (row.subjects.length) {
       var subjectsWrap = el('div', 'subject-tags');
       for (var i = 0; i < row.subjects.length; i++) {
         subjectsWrap.appendChild(el('span', 'subject-tag', row.subjects[i]));
       }
-      card.appendChild(subjectsWrap);
+      info.appendChild(subjectsWrap);
     }
+
+    var icon = el('div', 'result-instrument', AMS.instruments.iconForSubjects(row.subjects));
+    icon.setAttribute('aria-hidden', 'true');
+    top.appendChild(info);
+    top.appendChild(icon);
+    card.appendChild(top);
 
     var monthLabels = state.data.monthLabels;
     var shown = 0;

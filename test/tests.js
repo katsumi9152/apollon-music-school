@@ -7,6 +7,7 @@
 
   var CSV = AMS.csv;
   var S = AMS.schedule;
+  var I = AMS.instruments;
 
   var cases = [];
   function test(name, fn) { cases.push({ name: name, fn: fn }); }
@@ -138,6 +139,32 @@
     var data = S.parseSchedule('"何かのお知らせ","",""\r\n');
     eq(data.rows.length, 0);
     eq(data.monthLabels.length, 0);
+  });
+
+  // ------------------------------------------------------- instruments.js
+
+  test('instruments: 主要な教科をアイコンに変換できる', function () {
+    eq(I.iconForSubject('ピアノ科'), I.iconForSubject('ピアノ科・フルート科 新開講!'));
+    ok(I.iconForSubject('ドラム科').length > 0, 'ドラム科のアイコンが取得できる');
+    ok(I.iconForSubject('ボーカル科').length > 0, 'ボーカル科のアイコンが取得できる');
+  });
+
+  test('instruments: ギター系(エレキ/アコースティック/ベース/ウクレレ)は同じアイコン', function () {
+    var g = I.iconForSubject('エレキギター科');
+    eq(I.iconForSubject('アコースティックギター科'), g);
+    eq(I.iconForSubject('エレキベース科'), g);
+    eq(I.iconForSubject('ウクレレ科'), g);
+  });
+
+  test('instruments: 該当キーワードが無い教科は既定アイコンになる', function () {
+    eq(I.iconForSubject('なぞの科'), I.DEFAULT_ICON);
+    eq(I.iconForSubject(''), I.DEFAULT_ICON);
+  });
+
+  test('instruments: iconForSubjects は先頭の教科を優先する', function () {
+    eq(I.iconForSubjects(['ピアノ科', 'ドラム科']), I.iconForSubject('ピアノ科'));
+    eq(I.iconForSubjects([]), I.DEFAULT_ICON);
+    eq(I.iconForSubjects(null), I.DEFAULT_ICON);
   });
 
   // ------------------------------------------------------------ 実行

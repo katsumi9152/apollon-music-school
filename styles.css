@@ -212,6 +212,24 @@ main {
   border: 1px solid var(--border);
 }
 
+.result-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.result-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.result-instrument {
+  flex-shrink: 0;
+  font-size: 42px;
+  line-height: 1;
+}
+
 .result-head {
   display: flex;
   align-items: center;
