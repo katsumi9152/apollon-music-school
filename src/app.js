@@ -126,9 +126,9 @@
 
     var store = C.storeById(storeId);
 
-    if (mode === 'cache') {
-      setStatus('最新のレッスン日を確認中…', 'loading');
-    } else {
+    // キャッシュを即表示している間は何も言わない(裏の確認は一瞬で終わることが多く、
+    // 「確認中…」が出て消えるだけでレイアウトがガタつくため)
+    if (mode !== 'cache') {
       setStatus('', null);
     }
 
