@@ -382,7 +382,8 @@ main {
 
 footer {
   margin-top: 28px;
-  padding: 0 16px;
+  padding: 20px 16px 0;
+  border-top: 1px solid var(--border);
   text-align: center;
 }
 
