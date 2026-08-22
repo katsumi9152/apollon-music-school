@@ -15,17 +15,17 @@
     return String.fromCharCode(hi, lo);
   }
 
-  var NOTE = emoji(0x1f3b5); // musical note
-  var PIANO = emoji(0x1f3b9); // musical keyboard
-  var DRUM = emoji(0x1f941); // drum
-  var MIC = emoji(0x1f3a4); // microphone
-  var SAX = emoji(0x1f3b7); // saxophone
-  var TRUMPET = emoji(0x1f3ba); // trumpet
-  var VIOLIN = emoji(0x1f3bb); // violin
-  var GUITAR = emoji(0x1f3b8); // guitar
-  var NOTES = emoji(0x1f3b6); // musical notes(複数音符)
-  var FLUTE = emoji(0x1fa88); // flute
-  var ACCORDION = emoji(0x1fa97); // accordion
+  var NOTE = emoji(0x1f3b5);
+  var PIANO = emoji(0x1f3b9); // Unicode上の正式名は MUSICAL KEYBOARD
+  var DRUM = emoji(0x1f941);
+  var MIC = emoji(0x1f3a4);
+  var SAX = emoji(0x1f3b7);
+  var TRUMPET = emoji(0x1f3ba);
+  var VIOLIN = emoji(0x1f3bb);
+  var GUITAR = emoji(0x1f3b8);
+  var NOTES = emoji(0x1f3b6); // NOTE(1音符)と区別するための複数音符
+  var FLUTE = emoji(0x1fa88);
+  var ACCORDION = emoji(0x1fa97);
 
   var DEFAULT_ICON = NOTE;
 
