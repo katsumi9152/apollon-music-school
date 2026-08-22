@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>あぽろん レッスン日程</title>
+<meta name="description" content="あぽろんミュージックスクール レッスン日程確認アプリ。教室・曜日・先生を選ぶとレッスン日がわかります。" />
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <div class="hero-notes" aria-hidden="true">&#9834; &#9835; &#9836;</div>
+    <h1>あぽろん レッスン日程</h1>
+    <p class="hero-sub">教室・曜日・先生を選ぶと、レッスンの日がすぐわかるよ&#9834;</p>
+  </header>
+
+  <main>
+    <section class="step" id="step-store">
+      <h2><span class="step-num">1</span>教室を選ぶ</h2>
+      <div class="chip-grid" id="store-list"></div>
+    </section>
+
+    <section class="step" id="step-weekday" hidden>
+      <h2><span class="step-num">2</span>曜日を選ぶ</h2>
+      <div class="chip-row" id="weekday-list"></div>
+    </section>
+
+    <section class="step" id="step-teacher" hidden>
+      <h2><span class="step-num">3</span>先生を選ぶ</h2>
+      <div class="chip-grid" id="teacher-list"></div>
+    </section>
+
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+
+    <section class="result" id="result" hidden></section>
+  </main>
+
+  <footer>
+    <button class="refresh-btn" id="refresh-btn" type="button">最新の情報に更新</button>
+    <p class="updated" id="updated-info"></p>
+    <p class="sheet-link" id="sheet-link"></p>
+    <p class="bookmark-tip">&#128204; このページをブックマークしておくと、次回から選んだ教室・先生の状態で開けるよ</p>
+  </footer>
+</div>
+
+<script src="src/constants.js"></script>
+<script src="src/csv.js"></script>
+<script src="src/schedule.js"></script>
+<script src="src/storage.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>
