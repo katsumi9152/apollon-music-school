@@ -6,7 +6,7 @@
 
 1. `https://<公開先>/` を開く(スマホなら「ホーム画面に追加」がおすすめ。アイコン付きでアプリのように開けます)
 2. 教室 → 曜日 → 先生を選ぶ
-3. レッスン日が表示される(終わった日は薄く、次のレッスン日には「つぎ♪」が付く)
+3. レッスン日が表示される(終わった日は薄く、次のレッスン日には「明日」「明後日」などの目印が付く)
 
 前回選んだ教室・曜日・先生は、その端末のブラウザに保存され、次回開いたときの初期状態になります(SPEC的な話ではなく `localStorage` に保存しているだけで、他の人には共有されません)。
 
@@ -55,4 +55,7 @@ pwsh -File test\run.ps1
 
 ## 店舗を追加・変更するには
 
-`src/constants.js` の `STORES` に `{ id, name, sheetId }` を足すだけです。`sheetId` は、その店舗の Google スプレッドシートの URL(`https://docs.google.com/spreadsheets/d/<ここ>/edit`)から取得します。シートの列構成(曜日・講師・月×2・教科)が他店舗と同じであることが前提です。
+`src/constants.js` の `STORES` に `{ id, name, sheetId, sitePath }` を足すだけです。
+
+- `sheetId`: その店舗の Google スプレッドシートの URL(`https://docs.google.com/spreadsheets/d/<ここ>/edit`)から取得。シートの列構成(曜日・講師・月×2・教科)が他店舗と同じであることが前提
+- `sitePath`: あぽろんミュージックスクール公式サイト(`sites.google.com/site/apollonmusicschool/<ここ>`)のその店舗のページパス。フッターの「公式サイトを見る」リンクに使う

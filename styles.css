@@ -310,11 +310,10 @@ main {
 
 .month-block {
   padding: 16px 0;
-  border-top: 1px dashed var(--border);
 }
 
-.month-block:first-of-type {
-  border-top: none;
+.month-block + .month-block {
+  border-top: 1px dashed var(--border);
 }
 
 .month-label {
