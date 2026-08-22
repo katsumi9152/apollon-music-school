@@ -127,6 +127,19 @@
     eq(S.formatDateItems(['3', '17', '31']).join('、'), '3日、17日、31日');
   });
 
+  test('schedule: formatTeacherName は「先生」の直前にスペースを入れる', function () {
+    eq(S.formatTeacherName('山田愛実先生'), '山田愛実 先生');
+    eq(S.formatTeacherName('山田 愛実先生'), '山田 愛実 先生');
+  });
+
+  test('schedule: formatTeacherName はすでにスペースがあれば増やさない', function () {
+    eq(S.formatTeacherName('荒井 和真 先生'), '荒井 和真 先生');
+  });
+
+  test('schedule: formatTeacherName は「先生」が無ければそのまま返す', function () {
+    eq(S.formatTeacherName('あぽろんオリジナル'), 'あぽろんオリジナル');
+  });
+
   test('schedule: weekdaysPresent は曜日順(月火水木金土日)で重複なく返す', function () {
     var data = S.parseSchedule(sampleCsv());
     eq(S.weekdaysPresent(data.rows).join(''), '月火');

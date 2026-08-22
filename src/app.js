@@ -216,7 +216,7 @@
       (function (row) {
         var selected = state.teacher === row.teacher;
         els.teacherList.appendChild(
-          chipButton(row.teacher, selected, function () {
+          chipButton(S.formatTeacherName(row.teacher), selected, function () {
             selectTeacher(row);
           })
         );
@@ -248,7 +248,7 @@
     if (store) badges.appendChild(el('span', 'result-badge result-badge-store', store.name));
     badges.appendChild(el('span', 'result-badge result-badge-weekday', row.weekday + '曜日'));
     head.appendChild(badges);
-    head.appendChild(el('h3', 'result-teacher', row.teacher));
+    head.appendChild(el('h3', 'result-teacher', S.formatTeacherName(row.teacher)));
     info.appendChild(head);
 
     var icon = el('div', 'result-instrument', AMS.instruments.iconForSubjects(row.subjects));

@@ -112,6 +112,11 @@
     return t;
   }
 
+  /** 表示用に「◯◯先生」の直前へスペースを入れる(例: "山田愛実先生" → "山田愛実 先生")。選択の同一判定には使わない(生の講師名のまま比較する)。 */
+  function formatTeacherName(name) {
+    return String(name == null ? '' : name).replace(/([^\s])先生/g, '$1 先生');
+  }
+
   function formatDateItems(items) {
     var out = [];
     for (var i = 0; i < items.length; i++) out.push(formatDateItem(items[i]));
@@ -180,6 +185,7 @@
     weekdaysPresent: weekdaysPresent,
     rowsForWeekday: rowsForWeekday,
     formatDateItem: formatDateItem,
-    formatDateItems: formatDateItems
+    formatDateItems: formatDateItems,
+    formatTeacherName: formatTeacherName
   };
 })(this.AMS = this.AMS || {});
