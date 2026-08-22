@@ -203,6 +203,13 @@
     return result;
   }
 
+  /** daysUntil(今日からの残り日数)を「明日」「明後日」「あと◯日」の表示文言にする */
+  function formatDaysUntil(daysUntil) {
+    if (daysUntil === 1) return '明日';
+    if (daysUntil === 2) return '明後日';
+    return 'あと' + daysUntil + '日';
+  }
+
   /**
    * @param {string} csvText
    * @returns {{updatedAt: string, monthLabels: string[], rows: Array}}
@@ -269,6 +276,7 @@
     formatTeacherName: formatTeacherName,
     parseMonthNumber: parseMonthNumber,
     actualDateOf: actualDateOf,
-    resolveLessonDates: resolveLessonDates
+    resolveLessonDates: resolveLessonDates,
+    formatDaysUntil: formatDaysUntil
   };
 })(this.AMS = this.AMS || {});

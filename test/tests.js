@@ -215,6 +215,13 @@
     eq(r[0][0].daysUntil, 2);
   });
 
+  test('schedule: formatDaysUntil は1日→明日、2日→明後日、それ以外は「あと◯日」', function () {
+    eq(S.formatDaysUntil(1), '明日');
+    eq(S.formatDaysUntil(2), '明後日');
+    eq(S.formatDaysUntil(3), 'あと3日');
+    eq(S.formatDaysUntil(7), 'あと7日');
+  });
+
   test('schedule: resolveLessonDates は月が読めない列を unknown にする(落ちない)', function () {
     var months = [{ dateItems: ['5'], notes: [] }];
     var r = S.resolveLessonDates(['???'], months, new Date(2026, 7, 22));

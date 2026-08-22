@@ -301,7 +301,7 @@
           var item = resolved[m][d];
           var chip = el('span', 'date-chip date-' + item.status, S.formatDateItem(item.token));
           if (item.status === 'next') {
-            chip.appendChild(el('span', 'date-tag', 'あと' + item.daysUntil + '日'));
+            chip.appendChild(el('span', 'date-tag', S.formatDaysUntil(item.daysUntil)));
           } else if (item.status === 'today') {
             chip.appendChild(el('span', 'date-tag', 'きょう♪'));
           }
