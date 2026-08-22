@@ -201,7 +201,7 @@ main {
 /* ---- 結果カード ---- */
 
 .result {
-  margin-top: 6px;
+  margin: 2px 0 24px;
 }
 
 .result-card {

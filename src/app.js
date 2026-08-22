@@ -294,8 +294,13 @@
     }
 
     els.result.appendChild(card);
-    if (typeof card.scrollIntoView === 'function') {
-      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    // カードはタイトル直下にあるので、下の選択エリアから操作したときは上に戻して見せる
+    if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+      try {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (e) {
+        window.scrollTo(0, 0);
+      }
     }
   }
 
