@@ -190,11 +190,21 @@
     renderWeekdays(S.weekdaysPresent(state.data.rows));
     applyWeekday(weekday);
 
-    // 先生がまだ決まっていないときだけ、一覧が全部見えるようスクロールする
+    // 先生がまだ決まっていないときだけ、一覧が全部見えるようスクロールする。
+    // ぴったり画面端に寄せると窮屈なので、下に少し余白を残す
     if (!state.teacher && typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function') {
       window.requestAnimationFrame(function () {
-        if (typeof els.teacherSection.scrollIntoView === 'function') {
-          els.teacherSection.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        var section = els.teacherSection;
+        if (!section || typeof section.getBoundingClientRect !== 'function') return;
+        var rect = section.getBoundingClientRect();
+        var margin = 28;
+        var overflow = rect.bottom - window.innerHeight + margin;
+        if (overflow > 0 && typeof window.scrollBy === 'function') {
+          try {
+            window.scrollBy({ top: overflow, behavior: 'smooth' });
+          } catch (e) {
+            window.scrollBy(0, overflow);
+          }
         }
       });
     }
