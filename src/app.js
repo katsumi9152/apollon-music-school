@@ -215,9 +215,8 @@
     for (var i = 0; i < rows.length; i++) {
       (function (row) {
         var selected = state.teacher === row.teacher;
-        var label = row.teacher + (row.subjects.length ? '(' + row.subjects[0] + ')' : '');
         els.teacherList.appendChild(
-          chipButton(label, selected, function () {
+          chipButton(row.teacher, selected, function () {
             selectTeacher(row);
           })
         );
