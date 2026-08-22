@@ -242,8 +242,11 @@
     var top = el('div', 'result-top');
     var info = el('div', 'result-info');
 
+    var store = C.storeById(state.storeId);
+    var badgeText = (store ? store.name + ' ' : '') + row.weekday + '曜日';
+
     var head = el('div', 'result-head');
-    head.appendChild(el('span', 'result-badge', row.weekday + '曜日'));
+    head.appendChild(el('span', 'result-badge', badgeText));
     head.appendChild(el('h3', 'result-teacher', row.teacher));
     info.appendChild(head);
 

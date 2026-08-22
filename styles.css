@@ -233,7 +233,8 @@ main {
 .result-head {
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 8px 10px;
   margin-bottom: 8px;
 }
 
