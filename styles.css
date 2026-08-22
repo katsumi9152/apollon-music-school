@@ -272,6 +272,7 @@ main {
 
 .result-teacher {
   margin: 0;
+  padding-left: 6px;
   font-size: clamp(22px, 6vw, 28px);
   line-height: 1.25;
 }
@@ -286,10 +287,10 @@ main {
 }
 
 .month-label {
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 700;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .month-dates {
@@ -314,8 +315,8 @@ main {
   background: var(--surface-muted);
   border: 1.5px solid var(--border);
   border-radius: 12px;
-  padding: 8px 14px;
-  font-size: clamp(20px, 6vw, 26px);
+  padding: 8px 13px;
+  font-size: clamp(18px, 5.2vw, 23px);
   font-weight: 800;
   letter-spacing: 0.02em;
   line-height: 1.2;
