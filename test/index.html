@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>テスト実行 — あぽろん レッスン日程</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 20px; line-height: 1.6; }
+  .pass { color: #2a9d8f; }
+  .fail { color: #d62828; font-weight: bold; }
+  .summary { font-size: 18px; font-weight: bold; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<h1>テスト実行</h1>
+<div id="out">実行中…</div>
+
+<script src="../src/constants.js"></script>
+<script src="../src/csv.js"></script>
+<script src="../src/schedule.js"></script>
+<script src="../src/instruments.js"></script>
+<script src="tests.js"></script>
+<script>
+(function () {
+  var r = AMS.tests.run();
+  var out = document.getElementById('out');
+  out.textContent = '';
+
+  var summary = document.createElement('div');
+  summary.className = 'summary ' + (r.passed === r.total ? 'pass' : 'fail');
+  summary.textContent = r.passed + ' / ' + r.total + ' passed';
+  out.appendChild(summary);
+
+  for (var i = 0; i < r.results.length; i++) {
+    var t = r.results[i];
+    var line = document.createElement('div');
+    line.className = t.ok ? 'pass' : 'fail';
+    line.textContent = (t.ok ? '✓ ' : '✗ ') + t.name + (t.ok ? '' : ' — ' + t.message);
+    out.appendChild(line);
+  }
+})();
+</script>
+</body>
+</html>

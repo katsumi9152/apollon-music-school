@@ -112,15 +112,18 @@
     return t;
   }
 
-  /** 表示用に「◯◯先生」の直前へスペースを入れる(例: "山田愛実先生" → "山田愛実 先生")。選択の同一判定には使わない(生の講師名のまま比較する)。 */
-  function formatTeacherName(name) {
-    return String(name == null ? '' : name).replace(/([^\s])先生/g, '$1 先生');
-  }
-
   function formatDateItems(items) {
     var out = [];
     for (var i = 0; i < items.length; i++) out.push(formatDateItem(items[i]));
     return out;
+  }
+
+  /**
+   * 表示用に「◯◯先生」の直前へスペースを入れる(例: "山田愛実先生" → "山田愛実 先生")。
+   * 選択の同一判定は生の講師名で行うため、この結果を保存・比較に使わないこと。
+   */
+  function formatTeacherName(name) {
+    return String(name == null ? '' : name).replace(/([^\s])先生/g, '$1 先生');
   }
 
   /** 「8月」→ 8。月が読み取れなければ null */
