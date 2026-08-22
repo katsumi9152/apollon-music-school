@@ -443,6 +443,9 @@ footer {
   padding: 28px 24px 22px;
   max-width: 300px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
@@ -454,10 +457,12 @@ footer {
 }
 
 .qr-modal-img {
+  display: block;
   width: 100%;
   max-width: 220px;
   height: auto;
-  border-radius: 8px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
   background: #fff;
   padding: 8px;
   box-sizing: border-box;
@@ -471,16 +476,26 @@ footer {
 
 .qr-modal-close {
   position: absolute;
-  top: 8px;
+  top: 10px;
   right: 10px;
   appearance: none;
-  border: none;
-  background: none;
-  font-size: 22px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  border-radius: 999px;
+  font-size: 18px;
   line-height: 1;
   color: var(--muted);
   cursor: pointer;
-  padding: 6px;
+  padding: 0;
+}
+
+.qr-modal-close:active {
+  transform: scale(0.92);
 }
 
 .updated {
