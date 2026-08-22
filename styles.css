@@ -229,7 +229,7 @@ main {
 }
 
 .result-card {
-  background: linear-gradient(165deg, var(--card-tint), var(--surface) 60%);
+  background: linear-gradient(165deg, var(--card-tint), var(--surface) 32%);
   border-radius: var(--radius);
   padding: 22px 20px;
   box-shadow: var(--shadow);
@@ -307,7 +307,6 @@ main {
 
 .month-block {
   padding: 16px 0;
-  background: var(--surface);
 }
 
 .month-block + .month-block {
