@@ -250,14 +250,6 @@
     head.appendChild(el('h3', 'result-teacher', row.teacher));
     info.appendChild(head);
 
-    if (row.subjects.length) {
-      var subjectsWrap = el('div', 'subject-tags');
-      for (var i = 0; i < row.subjects.length; i++) {
-        subjectsWrap.appendChild(el('span', 'subject-tag', row.subjects[i]));
-      }
-      info.appendChild(subjectsWrap);
-    }
-
     var icon = el('div', 'result-instrument', AMS.instruments.iconForSubjects(row.subjects));
     icon.setAttribute('aria-hidden', 'true');
     top.appendChild(info);

@@ -217,6 +217,7 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
+  margin-bottom: 6px;
 }
 
 .result-info {
@@ -251,21 +252,6 @@ main {
 .result-teacher {
   margin: 0;
   font-size: 19px;
-}
-
-.subject-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 14px;
-}
-
-.subject-tag {
-  font-size: 12px;
-  background: var(--surface-muted);
-  color: var(--text);
-  padding: 4px 10px;
-  border-radius: 8px;
 }
 
 .month-block {
