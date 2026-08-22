@@ -15,7 +15,7 @@
   --shadow: 0 8px 20px -12px rgba(58, 46, 57, 0.35);
   --radius: 16px;
   --focus: #6a4c93;
-  --card-tint: rgba(242, 167, 27, 0.16);
+  --card-tint: rgba(242, 167, 27, 0.28);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,7 +32,7 @@
     --accent-3: #ffc857;
     --shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.6);
     --focus: #c9b6ff;
-    --card-tint: rgba(255, 200, 87, 0.18);
+    --card-tint: rgba(255, 200, 87, 0.30);
   }
 }
 
@@ -49,7 +49,7 @@
   --accent-3: #ffc857;
   --shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.6);
   --focus: #c9b6ff;
-  --card-tint: rgba(255, 200, 87, 0.18);
+  --card-tint: rgba(255, 200, 87, 0.30);
 }
 
 * {
