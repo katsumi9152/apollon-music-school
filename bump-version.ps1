@@ -8,6 +8,12 @@
 # バージョン文字列は全て index.html 自身から現在値を読み取って一括置換する」
 # という、書き手が1つだけになる方式にしている。
 #
+# キャッシュ対策の ?v=... には確実性を優先してカウンター+git ハッシュを使う一方、
+# 画面下の .app-version にはユーザー向けに「v1.00」のような読みやすい形式で表示する。
+# この2つは値が違うため、置換は必ずそれぞれの文脈(?v="..." / <p class="app-version">...)
+# に絞って行う。文字列全体を素朴に置換すると、たまたま値が一致していたときに
+# 別の箇所を巻き込んで壊すことがある(実際に一度壊れたので、この形にした)。
+#
 # 埋め込む git のコミットハッシュは「このスクリプトを実行した時点の HEAD」であり、
 # これから作る VERSION の更新コミットそのものではない(自己参照はできないため)。
 # このアプリはビルド成果物を配布するわけではなく index.html がそのまま配信物なので、
@@ -28,19 +34,16 @@ Set-Content -LiteralPath $versionFile -Value $next -NoNewline
 
 $sha = (git rev-parse --short HEAD 2>$null)
 if (-not $sha) { $sha = 'nogit' }
-$newToken = "$next-$sha"
+$newCacheToken = "$next-$sha"
+
+$major = [math]::Floor(($next - 1) / 100) + 1
+$minor = ($next - 1) % 100
+$newDisplayVersion = 'Version {0}.{1:D2} ({2})' -f $major, $minor, $sha
 
 $content = Get-Content -LiteralPath $indexPath -Raw
-$match = [regex]::Match($content, '<p class="app-version">v([^<]+)</p>')
-if (-not $match.Success) {
-  throw 'index.html 内に <p class="app-version">v...</p> が見つかりませんでした。'
-}
-$oldToken = $match.Groups[1].Value
 
-if ($oldToken -eq $newToken) {
-  Write-Host "バージョンは既に最新です: v$newToken"
-} else {
-  $content = $content.Replace($oldToken, $newToken)
-  Set-Content -LiteralPath $indexPath -Value $content -NoNewline
-  Write-Host "v$oldToken -> v$newToken に更新しました(VERSION と index.html)"
-}
+$content = [regex]::Replace($content, '(\?v=)[^"]+(")', '${1}' + $newCacheToken + '$2')
+$content = [regex]::Replace($content, '(<p class="app-version">)[^<]*(</p>)', '${1}' + $newDisplayVersion + '$2')
+
+Set-Content -LiteralPath $indexPath -Value $content -NoNewline
+Write-Host "$newDisplayVersion (キャッシュトークン: $newCacheToken) に更新しました"

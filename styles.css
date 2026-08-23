@@ -6,17 +6,17 @@
   --surface: #ffffff;
   --surface-muted: #fdf1e2;
   --text: #3a2e39;
-  --muted: #8b7e87;
+  --muted: #786b74;
   --border: #f0dfc8;
-  --accent: #e8556f;
+  --accent: #d81d3e;
   --accent-ink: #ffffff;
-  --accent-2: #2a9d8f;
-  --accent-3: #f2a71b;
+  --accent-2: #217c71;
+  --accent-3: #976509;
   --shadow: 0 8px 20px -12px rgba(58, 46, 57, 0.35);
   --radius: 16px;
   --focus: #6a4c93;
   --card-tint: rgba(242, 167, 27, 0.42);
-  --accent-mid: #ed7e45;
+  --accent-mid: #c85113;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -109,7 +109,7 @@ body {
 .hero-sub {
   margin: 0;
   font-size: 14px;
-  opacity: 0.92;
+  opacity: 0.93;
 }
 
 /* ---- 本文 ---- */
@@ -139,7 +139,7 @@ main {
   height: 22px;
   border-radius: 50%;
   background: var(--accent-2);
-  color: #fff;
+  color: var(--accent-ink);
   font-size: 12px;
   font-weight: 700;
 }
@@ -353,7 +353,7 @@ main {
 }
 
 .date-past {
-  opacity: 0.4;
+  opacity: 0.55;
   font-weight: 600;
 }
 
@@ -382,7 +382,8 @@ main {
 
 footer {
   margin-top: 28px;
-  padding: 0 16px;
+  padding: 20px 16px 0;
+  border-top: 2px solid var(--accent);
   text-align: center;
 }
 
@@ -391,8 +392,7 @@ footer {
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
-  padding-top: 20px;
-  border-top: 2px solid var(--accent);
+  margin-top: 16px;
 }
 
 .theme-toggle-btn,
@@ -525,15 +525,22 @@ footer {
   color: var(--muted);
 }
 
+.bookmark-tip-main {
+  display: inline-block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
 .unofficial-note {
   margin: 18px auto 0;
   padding-top: 14px;
   max-width: 280px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid color-mix(in srgb, var(--accent-2) 65%, transparent);
   font-size: 11px;
   line-height: 1.7;
-  color: var(--muted);
-  opacity: 0.75;
+  color: color-mix(in srgb, var(--muted) 70%, var(--text) 30%);
 }
 
 .official-site-card {
@@ -564,9 +571,16 @@ footer {
   transform: scale(0.98);
 }
 
+.disclaimer {
+  margin: 14px auto 0;
+  max-width: 280px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--muted) 70%, var(--text) 30%);
+}
+
 .app-version {
   margin: 10px 0 0;
   font-size: 10.5px;
-  color: var(--muted);
-  opacity: 0.6;
+  color: color-mix(in srgb, var(--muted) 70%, var(--text) 30%);
 }
