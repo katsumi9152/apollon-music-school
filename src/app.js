@@ -158,7 +158,7 @@
 
     clear(els.sheetLink);
     if (store.siteUrl) {
-      var link = el('a', 'sheet-link-a', store.name + 'の公式サイトを見る');
+      var link = el('a', 'sheet-link-a', store.name + 'の公式スケジュールを見る');
       link.href = store.siteUrl;
       link.target = '_blank';
       link.rel = 'noopener';
