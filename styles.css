@@ -410,6 +410,16 @@ footer {
   min-height: 40px;
 }
 
+.qr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qr-btn-icon {
+  flex: none;
+}
+
 .theme-toggle-btn {
   color: var(--text);
 }

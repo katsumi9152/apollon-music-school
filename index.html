@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-title" content="あぽろん日程" />
-<link rel="stylesheet" href="styles.css?v=20260823aa" />
+<link rel="stylesheet" href="styles.css?v=20260823ab" />
 </head>
 <body>
 <div class="page">
@@ -46,18 +46,30 @@
   <footer>
     <div class="footer-actions">
       <button class="refresh-btn" id="refresh-btn" type="button">最新の情報に更新</button>
-      <button class="qr-btn" id="qr-btn" type="button">📱 紹介QR</button>
+      <button class="qr-btn" id="qr-btn" type="button">
+        <svg class="qr-btn-icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
+          <rect x="3" y="3" width="7" height="7" rx="1.2" fill="none" stroke="currentColor" stroke-width="2" />
+          <rect x="14" y="3" width="7" height="7" rx="1.2" fill="none" stroke="currentColor" stroke-width="2" />
+          <rect x="3" y="14" width="7" height="7" rx="1.2" fill="none" stroke="currentColor" stroke-width="2" />
+          <rect x="14" y="14" width="3" height="3" fill="currentColor" />
+          <rect x="19" y="14" width="2" height="2" fill="currentColor" />
+          <rect x="14" y="19" width="2" height="2" fill="currentColor" />
+          <rect x="17" y="17" width="2" height="2" fill="currentColor" />
+          <rect x="19" y="19" width="2" height="2" fill="currentColor" />
+        </svg>
+        紹介QR
+      </button>
       <button class="theme-toggle-btn" id="theme-toggle-btn" type="button">🌙 ダーク表示</button>
     </div>
     <p class="updated" id="updated-info"></p>
     <p class="sheet-link" id="sheet-link"></p>
-    <p class="bookmark-tip">&#127925; 「ホーム画面に追加」しておくと、次からアプリみたいに1タップで開けるよ<br />(iPhone: 共有ボタン → ホーム画面に追加 / Android: メニュー → ホーム画面に追加)</p>
+    <p class="bookmark-tip">&#127925; 「ホーム画面に追加」しておくと、<br />次からアプリみたいに1タップで開けるよ<br />iPhone &gt; 共有ボタン → ホーム画面に追加<br />Android &gt; メニュー → ホーム画面に追加</p>
     <p class="unofficial-note">非公式のお手伝いアプリです。<br />正式な情報は公式サイトをご確認ください。</p>
     <a class="official-site-card" href="https://apollonmusic.com/" target="_blank" rel="noopener">
-      <span class="official-site-card-label">あぽろん (新潟の楽器販売・通販・音楽教室)</span>
-      <span class="official-site-card-cta">公式サイトはこちら &#8250;</span>
+      <span class="official-site-card-label">あぽろん (楽器販売・通販・音楽教室)</span>
+      <span class="official-site-card-cta">公式サイト &#8250;</span>
     </a>
-    <p class="app-version">v20260823aa</p>
+    <p class="app-version">v20260823ab</p>
   </footer>
 </div>
 
@@ -70,11 +82,11 @@
   </div>
 </div>
 
-<script src="src/constants.js?v=20260823aa"></script>
-<script src="src/csv.js?v=20260823aa"></script>
-<script src="src/schedule.js?v=20260823aa"></script>
-<script src="src/instruments.js?v=20260823aa"></script>
-<script src="src/storage.js?v=20260823aa"></script>
-<script src="src/app.js?v=20260823aa"></script>
+<script src="src/constants.js?v=20260823ab"></script>
+<script src="src/csv.js?v=20260823ab"></script>
+<script src="src/schedule.js?v=20260823ab"></script>
+<script src="src/instruments.js?v=20260823ab"></script>
+<script src="src/storage.js?v=20260823ab"></script>
+<script src="src/app.js?v=20260823ab"></script>
 </body>
 </html>
