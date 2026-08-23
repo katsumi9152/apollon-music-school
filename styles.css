@@ -420,10 +420,6 @@ footer {
   flex: none;
 }
 
-.theme-toggle-btn {
-  color: var(--text);
-}
-
 .refresh-btn:active,
 .theme-toggle-btn:active,
 .qr-btn:active {
