@@ -395,7 +395,6 @@ footer {
   border-top: 2px solid var(--accent);
 }
 
-.refresh-btn,
 .theme-toggle-btn,
 .qr-btn {
   appearance: none;
@@ -420,7 +419,6 @@ footer {
   flex: none;
 }
 
-.refresh-btn:active,
 .theme-toggle-btn:active,
 .qr-btn:active {
   transform: scale(0.97);

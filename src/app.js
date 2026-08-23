@@ -405,16 +405,12 @@
     els.status = document.getElementById('status');
     els.updatedInfo = document.getElementById('updated-info');
     els.sheetLink = document.getElementById('sheet-link');
-    els.refreshBtn = document.getElementById('refresh-btn');
     els.retryBtn = document.getElementById('retry-btn');
     els.themeToggleBtn = document.getElementById('theme-toggle-btn');
     els.qrBtn = document.getElementById('qr-btn');
     els.qrModal = document.getElementById('qr-modal');
     els.qrModalClose = document.getElementById('qr-modal-close');
 
-    els.refreshBtn.addEventListener('click', function () {
-      if (state.storeId) loadStoreData(state.storeId);
-    });
     els.retryBtn.addEventListener('click', function () {
       if (state.storeId) loadStoreData(state.storeId);
     });
