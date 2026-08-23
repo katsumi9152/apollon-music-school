@@ -16,7 +16,8 @@
   --radius: 16px;
   --focus: #6a4c93;
   --card-tint: rgba(242, 167, 27, 0.42);
-  --accent-mid: #c85113;
+  --accent-mid: #ed7e45;
+  --accent-mid-ink: var(--text);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,6 +36,7 @@
     --focus: #c9b6ff;
     --card-tint: rgba(255, 200, 87, 0.44);
     --accent-mid: #ffa175;
+    --accent-mid-ink: var(--accent-ink);
   }
 }
 
@@ -53,6 +55,7 @@
   --focus: #c9b6ff;
   --card-tint: rgba(255, 200, 87, 0.44);
   --accent-mid: #ffa175;
+  --accent-mid-ink: var(--accent-ink);
 }
 
 * {
@@ -177,7 +180,7 @@ main {
 
 .chip-selected {
   background: var(--accent-mid);
-  color: var(--accent-ink);
+  color: var(--accent-mid-ink);
   border-color: transparent;
 }
 
@@ -360,7 +363,7 @@ main {
 .date-next,
 .date-today {
   background: var(--accent-mid);
-  color: var(--accent-ink);
+  color: var(--accent-mid-ink);
   border-color: transparent;
 }
 
