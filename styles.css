@@ -385,7 +385,7 @@ main {
 
 footer {
   margin-top: 28px;
-  padding: 20px 16px 0;
+  padding: 14px 16px 0;
   border-top: 2px solid var(--accent);
   text-align: center;
 }
@@ -508,7 +508,7 @@ footer {
 }
 
 .updated {
-  margin: 10px 0 2px;
+  margin: 0 0 2px;
   font-size: 11.5px;
   color: var(--muted);
 }
